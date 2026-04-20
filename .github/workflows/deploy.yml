@@ -1,0 +1,71 @@
+name: Deploy to AWS ECS
+
+on:
+  push:
+    branches:
+      - main   # jis branch pe deploy chahiye
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: your-ecr-repo-name
+  ECS_SERVICE: your-ecs-service-name
+  ECS_CLUSTER: your-ecs-cluster-name
+  ECS_TASK_DEFINITION: task-definition.json
+  CONTAINER_NAME: your-container-name
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Code checkout
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. AWS credentials configure
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # 3. Login to ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # 4. Build, tag, push Docker image
+      - name: Build, tag, and push image
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      # 5. Fill new image in task definition
+      - name: Render task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      # 6. Deploy to ECS
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+#change these values in env section as per your setup
+#ECR_REPOSITORY: your-ecr-repo-name
+# ECS_SERVICE: your-ecs-service-name
+# ECS_CLUSTER: your-ecs-cluster-name
+# CONTAINER_NAME: your-container-name
