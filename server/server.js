@@ -27,6 +27,6 @@ app.use('/api/auth', authRoutes);
 app.get('/api/health', (req, res) => res.status(200).json({ status: 'success', message: 'API responds perfectly' }));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Explore JK Server seamlessly executing on port ${PORT}`);
 });
