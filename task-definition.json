@@ -1,0 +1,94 @@
+{
+  "taskDefinitionArn": "arn:aws:ecs:ap-northeast-1:808765743819:task-definition/jk_explore:1",
+  "containerDefinitions": [
+    {
+      "name": "jk_explore_container1",
+      "image": "808765743819.dkr.ecr.ap-northeast-1.amazonaws.com/usmaanrepo@sha256:64e69ee21225d2cd6b4cd0f618bc3363f71fee8b84b049e9c2c735a4c58e0610",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "hostPort": 5000,
+          "protocol": "tcp",
+          "name": "jk_explore_port",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/jk_explore",
+          "awslogs-create-group": "true",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "systemControls": []
+    }
+  ],
+  "family": "jk_explore",
+  "taskRoleArn": "arn:aws:iam::808765743819:role/jk_explore",
+  "executionRoleArn": "arn:aws:iam::808765743819:role/jk_explore",
+  "networkMode": "awsvpc",
+  "revision": 1,
+  "volumes": [],
+  "status": "ACTIVE",
+  "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "name": "ecs.capability.task-eni"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+    }
+  ],
+  "placementConstraints": [],
+  "compatibilities": [
+    "EC2",
+    "MANAGED_INSTANCES",
+    "FARGATE"
+  ],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "1024",
+  "memory": "3072",
+  "registeredAt": "2026-04-20T15:58:35.126Z",
+  "registeredBy": "arn:aws:iam::808765743819:user/user1_explore_jk",
+  "enableFaultInjection": false,
+  "tags": []
+}

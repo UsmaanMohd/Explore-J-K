@@ -6,12 +6,12 @@ on:
       - main   # jis branch pe deploy chahiye
 
 env:
-  AWS_REGION: ap-south-1
-  ECR_REPOSITORY: your-ecr-repo-name
-  ECS_SERVICE: your-ecs-service-name
-  ECS_CLUSTER: your-ecs-cluster-name
+  AWS_REGION: ap-northeast-1
+  ECR_REPOSITORY: usmaanrepo
+  ECS_SERVICE: jk_explore-servicejkex
+  ECS_CLUSTER: whimsical-parrot-xr9lhf
   ECS_TASK_DEFINITION: task-definition.json
-  CONTAINER_NAME: your-container-name
+  CONTAINER_NAME: jk_explore_container1
 
 jobs:
   deploy:
