@@ -1,7 +1,3 @@
-/**
- * Handles complex auth rules (JWT hashing, registration formatting).
- * Allows controller to remain purely for HTTP logic processing.
- */
 export const registerUser = async (userData) => {
     const { name, email, password } = userData;
     

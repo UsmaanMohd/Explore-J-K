@@ -13,9 +13,6 @@ export const getAllPlaces = async (req, res) => {
   }
 };
 
-/**
- * Handles fetching a single place by specific ID.
- */
 export const getPlaceById = async (req, res) => {
   try {
     const place = await placeService.fetchPlaceById(req.params.id);
@@ -29,9 +26,6 @@ export const getPlaceById = async (req, res) => {
   }
 };
 
-/**
- * Handles Search routing for filtered destinations via Service abstraction.
- */
 export const searchPlaces = async (req, res) => {
   try {
     const filteredPlaces = await placeService.filterPlaces(req.query);
